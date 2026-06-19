@@ -1,0 +1,5 @@
+.airplus_token.json
+captures/
+__pycache__/
+*.pyc
+.DS_Store

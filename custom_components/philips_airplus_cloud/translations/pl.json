@@ -1,0 +1,39 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Philips Air+ Cloud",
+        "description": "Otwórz auth_url, zaloguj się kontem Air+, a potem wklej finalny redirect URL zaczynający się od com.philips.air://loginredirect?code=...",
+        "data": {
+          "auth_url": "URL logowania",
+          "redirect_url": "Redirect URL"
+        }
+      }
+    },
+    "error": {
+      "missing_code": "URL nie zawiera parametru code.",
+      "auth_failed": "Logowanie Air+ nie powiodło się."
+    }
+  },
+  "entity": {
+    "switch": {
+      "power": {
+        "name": "Zasilanie"
+      }
+    },
+    "sensor": {
+      "product_state": {
+        "name": "Stan produktu"
+      },
+      "product_error": {
+        "name": "Błąd produktu"
+      },
+      "host_firmware": {
+        "name": "Firmware hosta"
+      },
+      "ncp_firmware": {
+        "name": "Firmware NCP"
+      }
+    }
+  }
+}

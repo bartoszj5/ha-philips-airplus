@@ -1,0 +1,38 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Philips Air+ Cloud",
+        "description": "Open this URL, sign in with your Air+ account, then paste the final redirect URL starting with com.philips.air://loginredirect?code=...\n\n{auth_url}",
+        "data": {
+          "redirect_url": "Redirect URL"
+        }
+      }
+    },
+    "error": {
+      "missing_code": "The URL does not contain a code parameter.",
+      "auth_failed": "Air+ authentication failed."
+    }
+  },
+  "entity": {
+    "switch": {
+      "power": {
+        "name": "Power"
+      }
+    },
+    "sensor": {
+      "product_state": {
+        "name": "Product state"
+      },
+      "product_error": {
+        "name": "Product error"
+      },
+      "host_firmware": {
+        "name": "Host firmware"
+      },
+      "ncp_firmware": {
+        "name": "NCP firmware"
+      }
+    }
+  }
+}
