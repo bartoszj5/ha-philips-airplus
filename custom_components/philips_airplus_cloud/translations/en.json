@@ -22,6 +22,45 @@
       }
     },
     "sensor": {
+      "pm25": {
+        "name": "PM2.5"
+      },
+      "pm25_level": {
+        "name": "PM2.5 level"
+      },
+      "allergen_index": {
+        "name": "Allergen index"
+      },
+      "air_quality_index": {
+        "name": "Air quality index"
+      },
+      "air_quality_label": {
+        "name": "Air quality"
+      },
+      "gas": {
+        "name": "Gas"
+      },
+      "temperature": {
+        "name": "Temperature"
+      },
+      "humidity": {
+        "name": "Humidity"
+      },
+      "target_humidity": {
+        "name": "Target humidity"
+      },
+      "filter_lifetime": {
+        "name": "Filter lifetime"
+      },
+      "main_filter_remaining": {
+        "name": "Main filter remaining"
+      },
+      "pre_filter_remaining": {
+        "name": "Pre-filter remaining"
+      },
+      "display": {
+        "name": "Display"
+      },
       "product_state": {
         "name": "Product state"
       },
@@ -33,6 +72,14 @@
       },
       "ncp_firmware": {
         "name": "NCP firmware"
+      }
+    },
+    "select": {
+      "mode": {
+        "name": "Mode"
+      },
+      "fan_mode": {
+        "name": "Fan mode"
       }
     }
   }

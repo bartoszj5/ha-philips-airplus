@@ -9,6 +9,7 @@ import time
 import urllib.parse
 import uuid
 from collections.abc import Awaitable, Callable
+from datetime import datetime, timezone
 
 from aiohttp import ClientResponseError, ClientSession, WSMsgType
 
@@ -242,6 +243,113 @@ class AirplusClient:
                     break
         raise TimeoutError(f"No MQTT response for {thing_name}")
 
+    async def _mqtt_ncp_command(
+        self,
+        thing_name: str,
+        command_name: str,
+        data: dict | None = None,
+        expected_port_name: str | None = None,
+    ) -> dict:
+        user = await self.async_get_user()
+        signature = await self.async_get_signature()
+        client_id = f"{user['id']}_{uuid.uuid4()}"
+        headers = {
+            "x-amz-customauthorizer-name": "CustomAuthorizer",
+            "x-amz-customauthorizer-signature": signature,
+            "token-header": f"Bearer {self._token['access_token']}",
+            "content-type": "application/json",
+            "tenant": TENANT,
+        }
+        correlation_id = str(uuid.uuid4())
+        payload = {
+            "cid": correlation_id,
+            "time": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "type": "command",
+            "cn": command_name,
+            "ct": "mobile",
+        }
+        if data is not None:
+            payload["data"] = data
+
+        publish_topic = f"da_ctrl/{thing_name}/to_ncp"
+        subscribe_topic = f"da_ctrl/{thing_name}/from_ncp"
+
+        async with self._session.ws_connect(
+            MQTT_URL,
+            protocols=("mqtt",),
+            headers=headers,
+            heartbeat=20,
+            receive_timeout=15,
+        ) as ws:
+            await ws.send_bytes(connect_packet(client_id))
+            connack = await ws.receive_bytes()
+            if not (len(connack) >= 4 and connack[0] == 0x20 and connack[3] == 0):
+                raise RuntimeError(f"MQTT connect rejected for {thing_name}")
+
+            await ws.send_bytes(subscribe_packet(1, [subscribe_topic]))
+            await ws.receive_bytes()
+            await ws.send_bytes(
+                publish_packet(
+                    publish_topic,
+                    json.dumps(payload, separators=(",", ":")).encode(),
+                )
+            )
+
+            deadline = time.monotonic() + 15
+            while time.monotonic() < deadline:
+                msg = await ws.receive(timeout=max(0.5, deadline - time.monotonic()))
+                if msg.type == WSMsgType.BINARY:
+                    parsed = parse_publish(msg.data)
+                    if not parsed:
+                        continue
+                    topic, body = parsed
+                    if topic != subscribe_topic:
+                        continue
+                    decoded = json.loads(body.decode("utf-8"))
+                    if decoded.get("cn") != command_name:
+                        continue
+                    response_cid = str(decoded.get("cid", ""))
+                    if response_cid and not (
+                        correlation_id.startswith(response_cid)
+                        or response_cid.startswith(correlation_id)
+                    ):
+                        continue
+                    if expected_port_name is not None:
+                        response_data = decoded.get("data")
+                        if not isinstance(response_data, dict):
+                            continue
+                        if response_data.get("portName") != expected_port_name:
+                            continue
+                    status = decoded.get("status", 0)
+                    if status != 0:
+                        raise RuntimeError(json.dumps(decoded, separators=(",", ":")))
+                    return decoded
+                if msg.type in (WSMsgType.CLOSED, WSMsgType.ERROR):
+                    break
+        raise TimeoutError(f"No NCP response for {thing_name}")
+
+    async def async_get_ncp_port(self, device: dict, port_name: str) -> dict:
+        response = await self._mqtt_ncp_command(
+            device["thingName"],
+            "getPort",
+            {"portName": port_name},
+            expected_port_name=port_name,
+        )
+        data = response.get("data")
+        return data if isinstance(data, dict) else {}
+
+    async def async_set_ncp_properties(
+        self,
+        device: dict,
+        port_name: str,
+        properties: dict,
+    ) -> dict:
+        return await self._mqtt_ncp_command(
+            device["thingName"],
+            "setPort",
+            {"portName": port_name, "properties": properties},
+        )
+
     async def async_get_shadow(self, device: dict) -> dict:
         thing_name = device["thingName"]
         shadow_prefix = f"$aws/things/{thing_name}/shadow"
@@ -253,11 +361,11 @@ class AirplusClient:
             f"{shadow_prefix}/get/rejected",
         )
 
-    async def async_set_power(self, device: dict, power_on: bool) -> dict:
+    async def async_set_shadow_state(self, device: dict, state: dict) -> dict:
         thing_name = device["thingName"]
         shadow_prefix = f"$aws/things/{thing_name}/shadow"
         payload = json.dumps(
-            {"state": {"desired": {"powerOn": power_on}}},
+            {"state": {"desired": state}},
             separators=(",", ":"),
         ).encode()
         return await self._mqtt_roundtrip(
@@ -268,10 +376,33 @@ class AirplusClient:
             f"{shadow_prefix}/update/rejected",
         )
 
-    async def async_get_all_shadows(self) -> dict[str, dict]:
+    async def async_set_power(self, device: dict, power_on: bool) -> dict:
+        return await self.async_set_shadow_state(
+            device,
+            {
+                "powerOn": power_on,
+                "pwr": "1" if power_on else "0",
+            },
+        )
+
+    async def async_get_device_data(self, device: dict) -> dict:
+        data = await self.async_get_shadow(device)
+        ncp_ports = ("Status", "filtRd", "devRd", "Config")
+        ncp_results = await asyncio.gather(
+            *(self.async_get_ncp_port(device, port) for port in ncp_ports),
+            return_exceptions=True,
+        )
+        ncp: dict[str, dict] = {}
+        for port, result in zip(ncp_ports, ncp_results, strict=False):
+            if not isinstance(result, Exception):
+                ncp[port] = result.get("properties", {})
+        data["ncp"] = ncp
+        return data
+
+    async def async_get_all_device_data(self) -> dict[str, dict]:
         devices = await self.async_get_devices()
         results = await asyncio.gather(
-            *(self.async_get_shadow(device) for device in devices),
+            *(self.async_get_device_data(device) for device in devices),
             return_exceptions=True,
         )
         data: dict[str, dict] = {}
@@ -280,3 +411,5 @@ class AirplusClient:
                 raise result
             data[device["id"]] = result
         return data
+
+    async_get_all_shadows = async_get_all_device_data

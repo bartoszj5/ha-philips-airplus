@@ -22,6 +22,45 @@
       }
     },
     "sensor": {
+      "pm25": {
+        "name": "PM2.5"
+      },
+      "pm25_level": {
+        "name": "Poziom PM2.5"
+      },
+      "allergen_index": {
+        "name": "Indeks alergenów"
+      },
+      "air_quality_index": {
+        "name": "Indeks jakości powietrza"
+      },
+      "air_quality_label": {
+        "name": "Jakość powietrza"
+      },
+      "gas": {
+        "name": "Gaz"
+      },
+      "temperature": {
+        "name": "Temperatura"
+      },
+      "humidity": {
+        "name": "Wilgotność"
+      },
+      "target_humidity": {
+        "name": "Docelowa wilgotność"
+      },
+      "filter_lifetime": {
+        "name": "Żywotność filtra"
+      },
+      "main_filter_remaining": {
+        "name": "Pozostały czas filtra głównego"
+      },
+      "pre_filter_remaining": {
+        "name": "Pozostały czas filtra wstępnego"
+      },
+      "display": {
+        "name": "Wyświetlacz"
+      },
       "product_state": {
         "name": "Stan produktu"
       },
@@ -33,6 +72,14 @@
       },
       "ncp_firmware": {
         "name": "Firmware NCP"
+      }
+    },
+    "select": {
+      "mode": {
+        "name": "Tryb"
+      },
+      "fan_mode": {
+        "name": "Tryb wentylatora"
       }
     }
   }

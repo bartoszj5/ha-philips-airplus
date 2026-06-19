@@ -21,4 +21,4 @@ SCOPE = (
     "DI.AccountSubscription.read DI.AccountSubscription.write"
 )
 
-PLATFORMS = ["sensor", "switch"]
+PLATFORMS = ["sensor", "select", "switch"]

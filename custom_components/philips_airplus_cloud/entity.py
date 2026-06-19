@@ -23,6 +23,13 @@ class AirplusEntity(CoordinatorEntity):
         return self.coordinator.data.get(self.device["id"], {})
 
     @property
+    def ncp(self) -> dict:
+        return self.shadow.get("ncp", {})
+
+    def ncp_properties(self, port_name: str) -> dict:
+        return self.ncp.get(port_name, {})
+
+    @property
     def reported(self) -> dict:
         return self.shadow.get("state", {}).get("reported", {})
 

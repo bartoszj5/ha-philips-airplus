@@ -35,6 +35,10 @@ class AirplusPowerSwitch(AirplusEntity, SwitchEntity):
             return bool(self.reported["powerOn"])
         if "powerOn" in self.desired:
             return bool(self.desired["powerOn"])
+        if "pwr" in self.reported:
+            return str(self.reported["pwr"]) == "1"
+        if "pwr" in self.desired:
+            return str(self.desired["pwr"]) == "1"
         return None
 
     async def async_turn_on(self, **kwargs) -> None:
