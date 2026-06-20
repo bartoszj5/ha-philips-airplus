@@ -53,10 +53,20 @@ Settings -> Devices & services -> Add integration -> Philips Air+ Cloud
 
 ## Login
 
+During setup you can choose between two login methods.
+
+### Email verification code
+
+Choose `Email + verification code`, enter the email address used by your Philips
+Air+ account, then paste the code sent by Philips. This method does
+not require browser developer tools.
+
+### Redirect URL / OAuth
+
 The Air+ OAuth flow redirects to the Air+ mobile app, so Home Assistant cannot
-receive the callback directly. During setup, the integration shows a login URL.
-Open it in your browser, sign in, then paste the final redirect URL, the `code`
-value, or the browser console line containing it.
+receive the callback directly. If you choose `Redirect URL / OAuth`, the
+integration shows a login URL. Open it in your browser, sign in, then paste the
+final redirect URL, the `code` value, or the browser console line containing it.
 
 In most desktop browsers:
 

@@ -8,11 +8,44 @@
           "auth_url": "Login URL",
           "redirect_url": "Redirect URL, code, or console error"
         }
+      },
+      "auth_method": {
+        "title": "Philips Air+ Cloud",
+        "description": "Choose how to sign in.",
+        "data": {
+          "auth_method": "Sign-in method"
+        }
+      },
+      "email": {
+        "title": "Philips Air+ Cloud",
+        "description": "Enter the email address for your Philips Air+ account. Philips will send a verification code.",
+        "data": {
+          "email": "Email address"
+        }
+      },
+      "email_otp": {
+        "title": "Philips Air+ Cloud",
+        "description": "Enter the verification code sent to {email}.",
+        "data": {
+          "otp_code": "Verification code"
+        }
+      },
+      "oauth": {
+        "title": "Philips Air+ Cloud",
+        "description": "Open this URL in your browser. Before signing in, open Developer Tools -> Console. After sign-in, Philips will try to open the Air+ app with a com.philips.air://loginredirect address. Copy the full Failed to launch line from the console, or only the address/code with the code parameter, and paste it below.\n\n{auth_url}",
+        "data": {
+          "auth_url": "Login URL",
+          "redirect_url": "Redirect URL, code, or console error"
+        }
       }
     },
     "error": {
       "missing_code": "Paste a URL with a code parameter, the authorization code itself, or the Failed to launch error line.",
-      "auth_failed": "Air+ authentication failed."
+      "auth_failed": "Air+ authentication failed.",
+      "invalid_email": "Enter a valid email address.",
+      "missing_otp": "Enter the verification code.",
+      "otp_send_failed": "Could not send the verification code.",
+      "otp_verify_failed": "Could not verify the code or complete Air+ authentication."
     }
   },
   "entity": {
