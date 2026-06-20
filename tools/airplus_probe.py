@@ -81,14 +81,15 @@ def extract_code(redirect: str) -> str:
     if not code:
         if "accounts.home.id/authui/client/proxy" in redirect and "mode=afterConsent" in redirect:
             raise SystemExit(
-                "To jest pośredni URL po zgodzie, jeszcze bez parametru code=. "
-                "Przeglądarka nie wykonała końcowego przekierowania do "
-                "com.philips.air://loginredirect. Uruchom skrypt ponownie i użyj "
-                "nowo wygenerowanego linku; jeżeli znowu zatrzyma się na spinnerze, "
-                "otwórz DevTools -> Network/Console i poszukaj blokowanego adresu "
+                "This is an intermediate post-consent URL and does not contain "
+                "a code= parameter yet. The browser did not complete the final "
+                "redirect to com.philips.air://loginredirect. Run the script "
+                "again and use the newly generated login URL. If it gets stuck "
+                "on a spinner again, open DevTools -> Network/Console and look "
+                "for a blocked address starting with "
                 "com.philips.air://loginredirect?code=..."
             )
-        raise SystemExit("Nie widzę parametru code= w podanym redirect URL.")
+        raise SystemExit("The provided redirect URL does not contain a code= parameter.")
     return code
 
 
@@ -111,9 +112,9 @@ def login(args: argparse.Namespace) -> dict:
         f"&ui_locales={args.locale}"
         f"&scope={scope}"
     )
-    print("Otwórz ten URL w przeglądarce i zaloguj się kontem Air+/Philips:")
+    print("Open this URL in your browser and sign in with your Air+ account:")
     print(url)
-    print("\nPo przekierowaniu wklej pełny URL zaczynający się od:")
+    print("\nAfter the redirect, paste the full URL starting with:")
     print(f"{REDIRECT_URI}?code=...")
     redirect = input("\nRedirect URL: ").strip()
     code = extract_code(redirect)
@@ -130,7 +131,7 @@ def login(args: argparse.Namespace) -> dict:
     )
     if args.save_token:
         Path(args.save_token).write_text(json.dumps(token, indent=2), encoding="utf-8")
-        print(f"\nZapisano token lokalnie: {args.save_token}")
+        print(f"\nSaved token locally: {args.save_token}")
     return token
 
 
@@ -143,15 +144,15 @@ def load_or_login(args: argparse.Namespace) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--locale", default="pl-PL")
-    parser.add_argument("--token-file", help="Wczytaj wcześniej zapisany JSON z tokenami.")
-    parser.add_argument("--save-token", help="Zapisz świeżo pobrany token JSON pod tą ścieżką.")
-    parser.add_argument("--signature", action="store_true", help="Pobierz też podpis MQTT.")
+    parser.add_argument("--token-file", help="Load a previously saved token JSON file.")
+    parser.add_argument("--save-token", help="Save the freshly fetched token JSON to this path.")
+    parser.add_argument("--signature", action="store_true", help="Also fetch the MQTT signature.")
     args = parser.parse_args()
 
     token = load_or_login(args)
     access_token = token.get("access_token")
     if not access_token:
-        raise SystemExit("Token response nie zawiera access_token.")
+        raise SystemExit("Token response does not contain access_token.")
 
     print_json("current user", get_json("/user/self", access_token))
     print_json("devices", get_json("/user/self/device", access_token))

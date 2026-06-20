@@ -1,0 +1,64 @@
+name: Compatibility report
+description: Report support for an Air+ model or missing/incorrect entities.
+title: "[Compatibility] "
+labels: ["compatibility"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for testing another Air+ model.
+
+        Do not upload `.airplus_token.json`. Redact account IDs, tokens, signatures, device identifiers, and anything else you consider private before posting probe output.
+  - type: input
+    id: model
+    attributes:
+      label: Air+ model
+      description: Exact model number from the device or Air+ app.
+      placeholder: "AC1715/10"
+    validations:
+      required: true
+  - type: input
+    id: home_assistant_version
+    attributes:
+      label: Home Assistant version
+      placeholder: "2026.6.0"
+    validations:
+      required: true
+  - type: input
+    id: integration_version
+    attributes:
+      label: Integration version or commit
+      placeholder: "1.0.0 or commit SHA"
+    validations:
+      required: true
+  - type: textarea
+    id: status
+    attributes:
+      label: What works?
+      description: List entities or controls that work correctly.
+      placeholder: "Power switch works, PM2.5 matches the Air+ app..."
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is missing or incorrect?
+      description: Describe missing entities, wrong values, failed controls, or setup errors.
+      placeholder: "Display light is missing, mode select shows the wrong value..."
+    validations:
+      required: true
+  - type: textarea
+    id: probe
+    attributes:
+      label: Optional NCP probe output
+      description: Paste redacted output from tools/airplus_ncp_probe.py if you are comfortable running it.
+      render: json
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy check
+      options:
+        - label: I did not upload `.airplus_token.json`.
+          required: true
+        - label: I redacted account IDs, tokens, signatures, and device identifiers from probe output.
+          required: true

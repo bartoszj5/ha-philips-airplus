@@ -1,10 +1,11 @@
 {
   "domain": "philips_airplus_cloud",
   "name": "Philips Air+ Cloud",
-  "codeowners": [],
+  "codeowners": ["@bartoszj5"],
   "config_flow": true,
-  "documentation": "https://github.com/custom-components/philips_airplus_cloud",
+  "documentation": "https://github.com/bartoszj5/ha-philips-airplus",
+  "issue_tracker": "https://github.com/bartoszj5/ha-philips-airplus/issues",
   "iot_class": "cloud_polling",
   "requirements": [],
-  "version": "0.1.0"
+  "version": "1.0.0"
 }
