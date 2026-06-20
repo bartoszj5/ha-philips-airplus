@@ -31,20 +31,14 @@ SENSORS: tuple[AirplusSensorDescription, ...] = (
         key="pm25",
         translation_key="pm25",
         value_keys=("pm25",),
-        ncp_keys=(("Status", "D0312A"),),
+        ncp_keys=(("Status", "D03221"),),
         native_unit_of_measurement=CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
-    ),
-    AirplusSensorDescription(
-        key="pm25_level",
-        translation_key="pm25_level",
-        value_keys=("pm25lvl",),
-        ncp_keys=(("Status", "D0312C"),),
     ),
     AirplusSensorDescription(
         key="allergen_index",
         translation_key="allergen_index",
         value_keys=("iaql", "iaql_allergen", "allergens"),
-        ncp_keys=(("Status", "D0312B"),),
+        ncp_keys=(("Status", "D03120"),),
     ),
     AirplusSensorDescription(
         key="air_quality_index",
@@ -91,6 +85,11 @@ SENSORS: tuple[AirplusSensorDescription, ...] = (
         value_keys=("ddp",),
         ncp_keys=(("Status", "D03105"),),
         native_unit_of_measurement=PERCENTAGE,
+    ),
+    AirplusSensorDescription(
+        key="fan_level",
+        translation_key="fan_level",
+        ncp_keys=(("Status", "D0310D"),),
     ),
     AirplusSensorDescription(
         key="main_filter_remaining",

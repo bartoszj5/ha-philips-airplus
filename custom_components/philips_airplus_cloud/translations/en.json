@@ -19,14 +19,14 @@
     "switch": {
       "power": {
         "name": "Power"
+      },
+      "display_light": {
+        "name": "Display light"
       }
     },
     "sensor": {
       "pm25": {
         "name": "PM2.5"
-      },
-      "pm25_level": {
-        "name": "PM2.5 level"
       },
       "allergen_index": {
         "name": "Allergen index"
@@ -60,6 +60,9 @@
       },
       "display": {
         "name": "Display"
+      },
+      "fan_level": {
+        "name": "Fan level"
       },
       "product_state": {
         "name": "Product state"

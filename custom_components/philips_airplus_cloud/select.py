@@ -23,20 +23,9 @@ class AirplusSelectDescription(SelectEntityDescription):
 MODE_OPTIONS = {
     "0": "Automatyczny",
     "17": "Sen",
-    "-126": "Naturalny nawiew",
     "1": "Prędkość 1",
     "2": "Prędkość 2",
-    "3": "Prędkość 3",
-    "4": "Prędkość 4",
-    "5": "Prędkość 5",
-    "6": "Prędkość 6",
-    "7": "Prędkość 7",
-    "8": "Prędkość 8",
-    "9": "Prędkość 9",
-    "10": "Prędkość 10",
-    "81": "Prędkość 11",
-    "82": "Prędkość 12",
-    "255": "Ręczny",
+    "18": "Turbo",
 }
 
 FAN_MODE_OPTIONS = {
@@ -68,9 +57,6 @@ SELECTS: tuple[AirplusSelectDescription, ...] = (
         key="fan_mode",
         translation_key="fan_mode",
         value_key="om",
-        ncp_port="Status",
-        ncp_value_key="D0310D",
-        ncp_set_port="Control",
         options_map=FAN_MODE_OPTIONS,
     ),
 )

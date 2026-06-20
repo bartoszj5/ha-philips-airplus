@@ -19,14 +19,14 @@
     "switch": {
       "power": {
         "name": "Zasilanie"
+      },
+      "display_light": {
+        "name": "Podświetlenie"
       }
     },
     "sensor": {
       "pm25": {
         "name": "PM2.5"
-      },
-      "pm25_level": {
-        "name": "Poziom PM2.5"
       },
       "allergen_index": {
         "name": "Indeks alergenów"
@@ -60,6 +60,9 @@
       },
       "display": {
         "name": "Wyświetlacz"
+      },
+      "fan_level": {
+        "name": "Poziom wentylatora"
       },
       "product_state": {
         "name": "Stan produktu"
