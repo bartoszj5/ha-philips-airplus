@@ -1,6 +1,8 @@
 # Philips Air+ Cloud for Home Assistant
 
-![Philips Air+ Cloud logo](custom_components/philips_airplus_cloud/brand/logo.png)
+<p align="center">
+  <img src="custom_components/philips_airplus_cloud/brand/logo.png" alt="Philips Air+ Cloud logo" width="240">
+</p>
 
 Custom Home Assistant integration for Air+ cloud-connected air purifiers.
 
