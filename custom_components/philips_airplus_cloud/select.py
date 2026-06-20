@@ -21,26 +21,26 @@ class AirplusSelectDescription(SelectEntityDescription):
 
 
 MODE_OPTIONS = {
-    "0": "Automatyczny",
-    "17": "Sen",
-    "1": "Prędkość 1",
-    "2": "Prędkość 2",
-    "18": "Turbo",
+    "0": "auto",
+    "17": "sleep",
+    "1": "speed_1",
+    "2": "speed_2",
+    "18": "turbo",
 }
 
 FAN_MODE_OPTIONS = {
-    "1": "Poziom 1",
-    "2": "Poziom 2",
-    "3": "Poziom 3",
-    "4": "Poziom 4",
-    "5": "Poziom 5",
-    "6": "Poziom 6",
-    "7": "Poziom 7",
-    "8": "Poziom 8",
-    "9": "Poziom 9",
-    "10": "Poziom 10",
-    "81": "Poziom 11",
-    "82": "Poziom 12",
+    "1": "level_1",
+    "2": "level_2",
+    "3": "level_3",
+    "4": "level_4",
+    "5": "level_5",
+    "6": "level_6",
+    "7": "level_7",
+    "8": "level_8",
+    "9": "level_9",
+    "10": "level_10",
+    "81": "level_11",
+    "82": "level_12",
 }
 
 SELECTS: tuple[AirplusSelectDescription, ...] = (

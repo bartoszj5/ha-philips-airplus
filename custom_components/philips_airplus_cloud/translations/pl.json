@@ -79,10 +79,31 @@
     },
     "select": {
       "mode": {
-        "name": "Tryb"
+        "name": "Tryb",
+        "state": {
+          "auto": "Automatyczny",
+          "sleep": "Sen",
+          "speed_1": "Prędkość 1",
+          "speed_2": "Prędkość 2",
+          "turbo": "Turbo"
+        }
       },
       "fan_mode": {
-        "name": "Tryb wentylatora"
+        "name": "Tryb wentylatora",
+        "state": {
+          "level_1": "Poziom 1",
+          "level_2": "Poziom 2",
+          "level_3": "Poziom 3",
+          "level_4": "Poziom 4",
+          "level_5": "Poziom 5",
+          "level_6": "Poziom 6",
+          "level_7": "Poziom 7",
+          "level_8": "Poziom 8",
+          "level_9": "Poziom 9",
+          "level_10": "Poziom 10",
+          "level_11": "Poziom 11",
+          "level_12": "Poziom 12"
+        }
       }
     }
   }
