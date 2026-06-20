@@ -4,6 +4,7 @@ import asyncio
 import base64
 import hashlib
 import json
+import re
 import secrets
 import time
 import urllib.parse
@@ -50,8 +51,23 @@ def make_auth_url(challenge: str, locale: str = "pl-PL") -> str:
 
 
 def extract_code(redirect_url: str) -> str | None:
-    parsed = urllib.parse.urlparse(redirect_url.strip())
-    return urllib.parse.parse_qs(parsed.query).get("code", [None])[0]
+    value = redirect_url.strip()
+    if not value:
+        return None
+
+    if code_match := re.search(r"[?&]code=([^&'\"\s]+)", value):
+        return urllib.parse.unquote(code_match.group(1))
+
+    parsed = urllib.parse.urlparse(value)
+    if not parsed.scheme and "://" not in value and "?" not in value and "=" not in value:
+        return value
+
+    query = urllib.parse.parse_qs(parsed.query)
+    if code := query.get("code", [None])[0]:
+        return code
+
+    fragment = urllib.parse.parse_qs(parsed.fragment)
+    return fragment.get("code", [None])[0]
 
 
 def enc_str(value: str) -> bytes:

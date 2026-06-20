@@ -3,15 +3,15 @@
     "step": {
       "user": {
         "title": "Philips Air+ Cloud",
-        "description": "Otwórz auth_url, zaloguj się kontem Air+, a potem wklej finalny redirect URL zaczynający się od com.philips.air://loginredirect?code=...",
+        "description": "Otwórz URL logowania w przeglądarce. Przed zalogowaniem otwórz Narzędzia deweloperskie -> Konsola. Po logowaniu Philips spróbuje otworzyć aplikację Air+ przez adres com.philips.air://loginredirect. Skopiuj z konsoli całą linię błędu Failed to launch albo sam adres/kod z parametru code i wklej poniżej.",
         "data": {
           "auth_url": "URL logowania",
-          "redirect_url": "Redirect URL"
+          "redirect_url": "Redirect URL, kod lub błąd z konsoli"
         }
       }
     },
     "error": {
-      "missing_code": "URL nie zawiera parametru code.",
+      "missing_code": "Wklej adres z parametrem code, sam kod autoryzacyjny albo linię błędu Failed to launch.",
       "auth_failed": "Logowanie Air+ nie powiodło się."
     }
   },
