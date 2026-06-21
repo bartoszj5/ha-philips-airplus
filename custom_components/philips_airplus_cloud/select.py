@@ -47,6 +47,7 @@ SELECTS: tuple[AirplusSelectDescription, ...] = (
     AirplusSelectDescription(
         key="mode",
         translation_key="mode",
+        icon="mdi:air-purifier",
         value_key="mode",
         ncp_port="Status",
         ncp_value_key="D0310C",
@@ -56,6 +57,7 @@ SELECTS: tuple[AirplusSelectDescription, ...] = (
     AirplusSelectDescription(
         key="fan_mode",
         translation_key="fan_mode",
+        icon="mdi:fan",
         value_key="om",
         options_map=FAN_MODE_OPTIONS,
     ),

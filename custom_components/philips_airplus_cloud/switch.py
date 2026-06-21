@@ -30,6 +30,7 @@ async def async_setup_entry(
 
 class AirplusPowerSwitch(AirplusEntity, SwitchEntity):
     _attr_translation_key = "power"
+    _attr_icon = "mdi:power"
 
     def __init__(self, coordinator, client, device: dict) -> None:
         super().__init__(coordinator, device)
@@ -59,6 +60,7 @@ class AirplusPowerSwitch(AirplusEntity, SwitchEntity):
 
 class AirplusDisplayLightSwitch(AirplusEntity, SwitchEntity):
     _attr_translation_key = "display_light"
+    _attr_icon = "mdi:brightness-6"
 
     def __init__(self, coordinator, client, device: dict) -> None:
         super().__init__(coordinator, device)
